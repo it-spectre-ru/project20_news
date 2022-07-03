@@ -11,8 +11,17 @@ def get_articles_urls(url):
   s = requests.Session()
   response = s.get(url=url, headers=headers)
 
-  with open('index.html', "w") as file:
-    file.write(response.text)
+  pagination_count = 10
+
+  for page in range(1, pagination_count):
+    response = s.get(url=f"https://hi-news.ru/page/{page}", headers=headers)
+    soup = BeautifulSoup(response.text, 'lxml')
+
+    articles_urls = soup.find('h2', class_="post__title").find('a')
+    # print(articles_urls)
+
+  # with open('index.html', "w") as file:
+  #   file.write(response.text)
 
 def main():
   get_articles_urls(url='https://hi-news.ru/')
