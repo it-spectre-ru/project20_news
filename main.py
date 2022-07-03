@@ -14,11 +14,11 @@ def get_articles_urls(url):
   s = requests.Session()
   response = s.get(url=url, headers=headers)
 
-  pagination_count = 10
+  pagination_count = 15
 
 
   articles_urls_list = []
-  for page in range(1, pagination_count):
+  for page in range(1, pagination_count + 1):
     response = s.get(url=f"https://hi-news.ru/page/{page}", headers=headers)
     soup = BeautifulSoup(response.text, 'lxml')
 
@@ -35,11 +35,10 @@ def get_articles_urls(url):
     for url in articles_urls_list:
       file.write(f'{url}\n')
 
-  # with open('index.html', "w") as file:
-  #   file.write(response.text)
+  return 'Done'
 
 def main():
-  get_articles_urls(url='https://hi-news.ru/')
+  print(get_articles_urls(url='https://hi-news.ru/'))
 
 if __name__ == "__main__":
   main()
