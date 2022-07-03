@@ -13,6 +13,8 @@ def get_articles_urls(url):
 
   pagination_count = 10
 
+
+  articles_urls_list = []
   for page in range(1, pagination_count):
     response = s.get(url=f"https://hi-news.ru/page/{page}", headers=headers)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -21,7 +23,13 @@ def get_articles_urls(url):
     
     for au in articles_urls:
       art_url = au.find("a").get("href")
-      print(art_url)
+      articles_urls_list.append(art_url)
+
+    print(f'Done {page} / {pagination_count}')
+ 
+  with open('articles_urls.txt', 'w') as file:
+    for url in articles_urls_list:
+      file.write(f'{url}\n')
 
   # with open('index.html', "w") as file:
   #   file.write(response.text)
