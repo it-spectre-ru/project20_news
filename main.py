@@ -52,10 +52,12 @@ def get_data(file_path):
 
     article_title = soup.find('h1', class_='single-title').text.strip()
     article_time = soup.find('time', class_='post__date').text.strip()
-    article_time2 = soup.find('div', class_='post__date-inner').text.strip()
+    # article_time2 = soup.find('div', class_='post__date-inner').text.strip()
+    article_img_url = f"https://hi-news.ru{soup.find('div', class_='text').find('img').get('src')}"
 
     print(article_title)
-    print(article_time2)
+    print(article_time)
+    print(article_img_url)
   
 
 
