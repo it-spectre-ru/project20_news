@@ -51,8 +51,10 @@ def get_data(file_path):
     soup = BeautifulSoup(response.text, 'lxml')
 
     article_title = soup.find('h1', class_='single-title').text.strip()
+    article_time = soup.find('time', class_='post__date').text.strip()
 
     print(article_title)
+    print(article_time)
   
 
 
