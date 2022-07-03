@@ -1,3 +1,4 @@
+from urllib import response
 import requests
 from bs4 import BeautifulSoup
 import time
@@ -45,8 +46,13 @@ def get_data(file_path):
 
   s = requests.Session()
 
-  for url in urls_list:
-    print(url)
+  for url in urls_list[:5]:
+    response = s.get(url=url, headers=headers)
+    soup = BeautifulSoup(response.text, 'lxml')
+
+    article_title = soup.find('h1', class_='single-title').text.strip()
+
+    print(article_title)
   
 
 
