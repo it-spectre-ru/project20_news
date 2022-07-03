@@ -37,8 +37,23 @@ def get_articles_urls(url):
 
   return 'Done'
 
+
+
+def get_data(file_path):
+  with open(file_path) as file:
+    urls_list = [line.strip() for line in file.readlines()]
+
+  s = requests.Session()
+
+  for url in urls_list:
+    print(url)
+  
+
+
+
 def main():
-  print(get_articles_urls(url='https://hi-news.ru/'))
+  # print(get_articles_urls(url='https://hi-news.ru/'))
+  get_data('articles_urls.txt')
 
 if __name__ == "__main__":
   main()
