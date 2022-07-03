@@ -17,8 +17,11 @@ def get_articles_urls(url):
     response = s.get(url=f"https://hi-news.ru/page/{page}", headers=headers)
     soup = BeautifulSoup(response.text, 'lxml')
 
-    articles_urls = soup.find('h2', class_="post__title").find('a')
-    # print(articles_urls)
+    articles_urls = soup.find_all('h2', class_="post__title")
+    
+    for au in articles_urls:
+      art_url = au.find("a").get("href")
+      print(art_url)
 
   # with open('index.html', "w") as file:
   #   file.write(response.text)
