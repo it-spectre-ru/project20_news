@@ -1,8 +1,8 @@
-from urllib import response
 import requests
 from bs4 import BeautifulSoup
 import time
 from random import randrange
+import json
 
 
 
@@ -44,20 +44,38 @@ def get_data(file_path):
   with open(file_path) as file:
     urls_list = [line.strip() for line in file.readlines()]
 
-  s = requests.Session()
+  urls_count = len(urls_list)
 
-  for url in urls_list[:5]:
-    response = s.get(url=url, headers=headers)
+  s = requests.Session()
+  result_data = []
+
+  for url in enumerate(urls_list):
+    response = s.get(url=url[1], headers=headers)
     soup = BeautifulSoup(response.text, 'lxml')
 
-    article_title = soup.find('h1', class_='single-title').text.strip()
-    article_time = soup.find('time', class_='post__date').text.strip()
-    # article_time2 = soup.find('div', class_='post__date-inner').text.strip()
-    article_img_url = soup.find('div', class_='text').find('img').get('src')
+    try:
+      article_title = soup.find('h1', class_='single-title').text.strip()
+      article_time = soup.find('time', class_='post__date').text.strip()
+      article_img_url = soup.find('div', class_='text').find('img').get('src')
+      article_text = soup.find('div', class_='text').text.strip().replace('\n', '')
+    except Exception as ex:
+      print(f"errr: {ex}")
+      continue
 
-    print(article_title)
-    print(article_time)
-    print(article_img_url)
+    result_data.append(
+      {
+        'original_url': url[1],
+        'article_title': article_title,
+        'article_time': article_time,
+        'article_img_url': article_img_url,
+        'article_text': article_text,
+      }
+    )
+
+    print(f"Done {url[0] + 1} / {urls_count}")
+
+  with open('result.json', 'w') as file:
+    json.dump(result_data, file, indent=4, ensure_ascii=False)
   
 
 
