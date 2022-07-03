@@ -1,5 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+import time
+from random import randrange
+
 
 
 headers = {
@@ -25,6 +28,7 @@ def get_articles_urls(url):
       art_url = au.find("a").get("href")
       articles_urls_list.append(art_url)
 
+    time.sleep(randrange(2, 5))
     print(f'Done {page} / {pagination_count}')
  
   with open('articles_urls.txt', 'w') as file:
